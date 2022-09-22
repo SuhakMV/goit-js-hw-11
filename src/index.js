@@ -1,7 +1,11 @@
 /**Import */
 import './css/styles.css';
-import Notiflix from 'notiflix';
-import debounce from 'lodash.debounce';
+//import axios from 'axios';
+//import Notiflix from 'notiflix';
+//import SimpleLightbox from "simplelightbox";
+// Дополнительный импорт стилей
+//import "simplelightbox/dist/simple-lightbox.min.css";
+//import debounce from 'lodash.debounce';
 import { fetchCountries } from './fetchCountries';
 
 const DEBOUNCE_DELAY = 300;
