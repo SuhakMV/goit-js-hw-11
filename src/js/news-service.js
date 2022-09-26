@@ -4,18 +4,20 @@ export default class NewsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
+        
     }
 
-    async fetchArticles() {
+    async fetchArticles(searchQuery) {
+        console.log(this);
         const options = {
             url: 'https://pixabay.com/api/',
             params: {
                 key: '30112757-abf194c84cfc9ccef9cde8e0f',
-                q: `${searchQuery}`,
+                q: `${this.searchQuery}`,
                 image_type: 'photo',
                 orientation: 'horizontal',
                 safesearch: 'true',
-                per_page: '40',
+                per_page: '5',
                 page: `${this.page}`,
             },
         };
@@ -25,7 +27,7 @@ export default class NewsApiService {
             const data = response.data;
             console.log(data);
             this.incrementPage();
-            return data;
+            return data.hits;
         }
 
         catch (error) {
