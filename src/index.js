@@ -19,15 +19,13 @@ const loadMoreBtn = new LoadMoreBtn({
 });
 const newsApiService = new NewsApiService();
 console.log(loadMoreBtn);
-loadMoreBtn.show();
-loadMoreBtn.disable();
 
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
-function onSearch (e) {
+async function onSearch (e) {
     e.preventDefault();
-
+    
     newsApiService.query = e.currentTarget.elements.searchQuery.value.trim();
     newsApiService.resetPage();
         clearCardContainer();
@@ -36,35 +34,68 @@ function onSearch (e) {
                 'Please enter text in the search bar!'
             );
         };
-    
-    newsApiService.fetchArticles().then (data => {
-        
-        appendMarkupCards(data);
-    });
+    renderCards();
+    Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images!`);
 }
-
 
 function onLoadMore () {
-    newsApiService.fetchArticles().then (hits => {
-        console.log(hits);
+    loadMoreBtn.disable();
+    newsApiService.fetchArticles().then (data =>{
+        if (data.hits === data.totalHits) {
+            Notiflix.Notify.info(
+                "We're sorry, but you've reached the end of search results."
+              );
+              loadMoreBtn.disable();
+              return;
+        }
+        appendMarkupCards(data);
+        loadMoreBtn.show();
+        loadMoreBtn.enable();
+        lightbox.refresh();
     });
 }
 
+/**function renderCards() {
+    
+    newsApiService.fetchArticles().then (data =>{
+        appendMarkupCards(data);
+        lightbox.refresh();
+        loadMoreBtn.show();
+        loadMoreBtn.enable();
+    });
+}*/
+
+async function renderCards() {
+    loadMoreBtn.disable();
+    try {
+        newsApiService.fetchArticles().then (data =>{
+            appendMarkupCards(data);
+            //Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images!`);
+            loadMoreBtn.show();
+            loadMoreBtn.enable();
+            lightbox.refresh();
+        });
+    }
+        catch (error) {
+            Notiflix.Notify.info("We're sorry, but you've reached the end of search results.!");
+        };  
+};
+
+
+
+/**Clear container */
 function clearCardContainer() {
     refs.gallery.innerHTML = '';
 }
-
+/**Add markup to HTML */
 function appendMarkupCards(cards) {
     refs.gallery.insertAdjacentHTML('beforeend', markupCards(cards));
 }
 
+/**Create crads markup */
+function markupCards(data) {
 
-
-
-
-function markupCards(hits) {
-
-    return hits.map(({ webformatURL,
+    return data.hits.map(({ webformatURL,
         largeImageURL,
         views,
         likes,
@@ -95,6 +126,7 @@ function markupCards(hits) {
         .join('');
 }
 
+/**Lightbox */
 var lightbox = new SimpleLightbox('.gallery a', {
     captionsData: "alt",
     captionDelay: 250,
