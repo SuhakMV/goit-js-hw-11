@@ -43,6 +43,7 @@ function renderCards () {
     clearCardContainer();
         newsApiService.fetchArticles().then (data =>{
             if(data.totalHits === 0){
+                loadMoreBtn.disable;
                 Notiflix.Notify.info("Sorry, there are no images matching your search query. Please try again.")
                 return;
             }
@@ -89,11 +90,13 @@ function markupCards(data) {
         views,
         likes,
         comments,
-        downloads }) => {
+        downloads,
+        tags,
+    }) => {
             return `
             <div class="gallery__item">
                 <a class="gallery__link" href="${largeImageURL}">
-                    <img class="gallery__image" src="${webformatURL}" alt="" loading="lazy"/>
+                    <img class="gallery__image" src="${webformatURL}" alt="${tags}" loading="lazy"/>
                 </a>
                 <div class="info">
                     <p class="info-item">
@@ -116,8 +119,10 @@ function markupCards(data) {
 }
 
 /**Lightbox */
-var lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: "alt",
+var lightbox = new SimpleLightbox('.gallery__item a', {
+    captions: true,
+    captionPosition: 'bottom',
+    captionsData: 'alt',
     captionDelay: 250,
     animationSpeed: 250,
 });

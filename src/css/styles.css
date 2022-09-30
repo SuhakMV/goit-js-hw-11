@@ -25,21 +25,58 @@ h1,h2,h3,h4,h5,h6,p {
 .search-form {
   display: flex;
   justify-content: center;
-  padding: 8px;
+  padding: 25px;
   margin-bottom: 24px;
+  background-color: blue;
+  border-radius: 10px;
+}
+
+.search-form__input {
+  background-color: blanchedalmond;
+  border: solid 1px #212121;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.search-form__btn {
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: yellow;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+.search-form__btn:hover {
+  cursor: pointer;
+  background-color: gold;
+}
+
+.search-form__btn:focus {
+  background-color: #fafafa;
 }
 
 .button {
+  font-weight: 900px;
+  border: none;
+  border-radius: 5px;
+  color: #fafafa;
+  padding: 10px 30px 10px 30px;
+  background-color:steelblue;
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
+.button:hover {
+  cursor: pointer;
+  background-color:lightslategrey;
+}
+
 .button.is-hidden {
   display: none;
 }
-
-
 
 .gallery {
   display: grid;
@@ -57,6 +94,12 @@ h1,h2,h3,h4,h5,h6,p {
   position: relative;
   box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+
+.gallery__item > .gallery__link {
+  display: block;
+  height: 230px;
+  width: 100%;
 }
 
 .gallery__image:hover {
@@ -78,6 +121,20 @@ h1,h2,h3,h4,h5,h6,p {
 
 .gallery__link:hover {
   cursor: zoom-in;
+}
+
+.info {
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0;
+  padding: 0px 5px 0px 5px;
 }
 
 
