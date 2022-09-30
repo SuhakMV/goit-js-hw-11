@@ -4,7 +4,6 @@ export default class NewsApiService {
     constructor() {
         this.searchQuery = '';
         this.page = 1;
-        
     }
 
     async fetchArticles(searchQuery) {
