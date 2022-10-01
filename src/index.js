@@ -24,22 +24,21 @@ console.log(loadMoreBtn);
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
-function onSearch (e) {
+async function onSearch (e) {
     e.preventDefault();
-    
+    //clearCardContainer();
         newsApiService.query = e.currentTarget.elements.searchQuery.value.trim();
         newsApiService.resetPage();
         
         if (newsApiService.query === '') {
             return Notiflix.Notify.failure(
-                'Please enter text in the search bar!'
-            );
+                'Please enter text in the search bar!');
         }
         renderCards();
 }
 
 function renderCards () {
-    loadMoreBtn.disable();
+    //loadMoreBtn.disable();
     clearCardContainer();
         newsApiService.fetchArticles().then (data =>{
             if(data.totalHits === 0){
@@ -53,6 +52,11 @@ function renderCards () {
             loadMoreBtn.show();
             loadMoreBtn.enable();
             lightbox.refresh();
+            if(sumHits >= data.totalHits) {
+                loadMoreBtn.hide();
+                Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+            return;
+            }
         });         
 }
 
@@ -64,7 +68,7 @@ async function onLoadMore() {
             loadMoreBtn.show();
             loadMoreBtn.enable();
             lightbox.refresh();
-            if(sumHits === data.totalHits + data.totalHits % data.hits.length) {
+            if(sumHits >= data.totalHits) {
                 loadMoreBtn.hide();
                 Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
             return;
